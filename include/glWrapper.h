@@ -13,24 +13,25 @@ class Sprite {
 		int y;
 		int z;
 		int layer; // layer is basically Z :D
-		void newSprite(int _x, int _y, int _width, int _height, int _z, int imgToUse, int texSize);
+		void newSprite(int _x, int _y, int _width, int _height, int _z, int _id);
 		int width;
 		int height;
 		int size;
 		void update( );
-		
+		int depth;
 		void setX( int _x );
 		int getX( );
 		void setY( int _y );
 		int getY( );
-		
+		void setZ( int _z );
+		int getZ( );
 		int getSize( );
 		int getWidth( );
 		int getHeight( );
 		void setSize( int _width, int _height );
 		void printSomething( );
 		int texID = 0;
-		
+		int id;
 		void setTexture(int _texID);
 	private:
 		
@@ -39,6 +40,9 @@ class Sprite {
 
 int initGL ( );
 int LoadGLTextures();
+void SetOrtho( void );
+void _glBegin( );
+void _glEnd( );
 
 // LUA Bindings here
 int l_initGL(lua_State * L);

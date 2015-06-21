@@ -18,7 +18,7 @@ end
 
 function inventory:createHeader( )
 	self._header = Sprite.new( )
-	self._header:newSprite(0, 75, 100, 20, -1, 4, 5)
+	self._header:newSprite(0, 75, 100, 20, -4, 4, 5)
 	self._header:setTexture(INVENTORY_BOTTOM_HEADER_TEX)
 	table.insert(self._inventoryRenderTable, self._header)
 end
@@ -31,7 +31,7 @@ function inventory:createSlots( )
 			self._inventoryGrid[x][y].gfx = Sprite.new( )
 			self._inventoryGrid[x][y]._x = x*32+OFFSET_X-math.floor(GRID_SIZE/2)
 			self._inventoryGrid[x][y]._y = y*32+OFFSET_Y
-			self._inventoryGrid[x][y].gfx:newSprite(x*32, y*32, 16, 16, -1, 4, 5)
+			self._inventoryGrid[x][y].gfx:newSprite(x*32, y*32, 16, 16, -4, 4, 5)
 			self._inventoryGrid[x][y].gfx:setTexture(SLOT_PCX_TEX)
 		end
 	end

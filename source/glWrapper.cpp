@@ -19,6 +19,7 @@
 #include "bg_top_pcx.h"
 #include "bg_bottom_pcx.h"
 #include "inventory_bottom_header_pcx.h"
+#include "sword_pcx.h"
 
 int textureID;
 using namespace std;
@@ -29,6 +30,7 @@ bool	light;				// Lighting ON/OFF ( NEW )
 float LightAmbient[]=		{ 0.5f, 0.5f, 0.5f, 1.0f };
 float LightDiffuse[]=		{ 1.0f, 1.0f, 1.0f, 1.0f };
 float LightPosition[]=	{ 0.0f, 0.0f, 2.0f, 1.0f };
+
 
 //-------------------------------------------------------
 // set up a 2D layer construced of bitmap sprites
@@ -64,6 +66,7 @@ void initSubSprites(void){
    oamUpdate(&oamSub);
 }
 
+
 int initGL ( )
 {
 	//set mode 0, enable BG0 and set it to 3D
@@ -81,7 +84,7 @@ int initGL ( )
 	
 	//enable textures
 	glEnable(GL_TEXTURE_2D);
-	
+	//glEnable(GL_TRANS_MANUALSORT);
 	// enable antialiasing
 	glEnable(GL_ANTIALIAS);
 	glEnable(GL_BLEND);
@@ -89,7 +92,7 @@ int initGL ( )
 	// setup the rear plane
 	glClearColor(1, 1, 1,255); // BG must be opaque for AA to work
 	glClearPolyID(63); // BG must have a unique polygon ID for AA to work
-	glClearDepth(0x7FFF);
+	glClearDepth(GL_MAX_DEPTH);
 
 	//this should work the same as the normal gl call
 	glViewport(0,0,255,191);
@@ -118,7 +121,7 @@ int initGL ( )
 	//glMaterialShinyness();
 	
 	glLight(0, RGB15(31,31,31) , 0, floattov10(-1.0), 0);
-	
+
 	return 0;
 }
 
@@ -129,13 +132,13 @@ int RandomNumber(int min, int max){
 	return randNum;
 }
 
-int	texture[6];		
+int	texture[7];		
 
 // Load PCX files And Convert To Textures
 int LoadGLTextures() {
 	
 
-	int imgSz = 6;
+	int imgSz = 7;
 	const unsigned char* img[imgSz];
 
 /*
@@ -151,6 +154,7 @@ int LoadGLTextures() {
 	img[3] = slot_pcx;
 	img[4] = zapah_pcx;
 	img[5] = inventory_bottom_header_pcx;
+	img[6] = sword_pcx;
 	
 	/*
 	TEXTURE_SIZE_8 = 0,
@@ -163,7 +167,7 @@ int LoadGLTextures() {
 	TEXTURE_SIZE_1024 = 7 
   */
 	int szTex = 5;
-	int TextureSize[6];
+	int TextureSize[imgSz];
 	/*TextureSize[0] = TEXTURE_SIZE_8;
 	TextureSize[1] = TEXTURE_SIZE_16;
 	TextureSize[2] = TEXTURE_SIZE_32;
@@ -178,15 +182,16 @@ int LoadGLTextures() {
 	TextureSize[3] = TEXTURE_SIZE_32;
 	TextureSize[4] = TEXTURE_SIZE_128;
 	TextureSize[5] = TEXTURE_SIZE_8;
+	TextureSize[6] = TEXTURE_SIZE_32;
 
 	//load our texture
 			// (NEW) and different from nehe.
 	int i;
-	int res = glGenTextures(6, &texture[0]);
+	int res = glGenTextures(imgSz, &texture[0]);
 	sImage pcx;
 	if (res == 1)
 	{
-		for (i = 0; i < 6; i++)
+		for (i = 0; i < imgSz; i++)
 		{
 			
 			
@@ -228,12 +233,12 @@ int LoadGLTextures() {
 }
 
 
-void drawQuad(int width, int height, int texID)
+void drawQuad(int width, int height, int texID, int _depth)
 {
 		/*tex = tex + 1;
 		if(tex > 5)
 			tex = 0;*/
-
+		//glPolyFmt(POLY_ALPHA(31) | POLY_CULL_BACK  | POLY_FORMAT_LIGHT0 | POLY_ID(g_depth));
 		glBindTexture(GL_TEXTURE_2D, texture[texID]);
 		glScalef(width, height, 1);
 		glBegin(GL_QUAD);
@@ -245,22 +250,23 @@ void drawQuad(int width, int height, int texID)
 */			
 			glTexCoord2f(0.0f, 1.0f);//glColor3b(255,0,0);
 
-			glVertex3f(-1, -1, 0);
+			glVertex3f(-1, -1, _depth);
 
 			glTexCoord2f(1.0f, 1.0f);//glColor3b(0,255,0);
 
-			glVertex3f(1, -1, 0);
+			glVertex3f(1, -1, _depth);
 			
 			
 			glTexCoord2f(1.0f, 0.0f);//glColor3b(0,0,255);
 
-			glVertex3f(1, 1, 0);
+			glVertex3f(1, 1, _depth);
 
 			glTexCoord2f(0.0f, 0.0f);//glColor3b(255,0,255);
 
-			glVertex3f(-1, 1, 0);
+			glVertex3f(-1, 1, _depth);
 	
 		glEnd();
+		
 
 	//glPopMatrix(1);
 }
@@ -270,7 +276,7 @@ void drawQuad(int width, int height, int texID)
 Sprite::Sprite( )
 {
 	//cout << "SPRITE IS A-OKKK!!!!" << endl;
-
+	id = 0;
 	
 }
 
@@ -279,7 +285,7 @@ void Sprite::setTexture(int _texID)
 	texID = _texID;
 }
 
-void Sprite::newSprite(int _x, int _y, int _width, int _height, int _z, int imgToUse, int texSize)
+void Sprite::newSprite(int _x, int _y, int _width, int _height, int _z, int _id)
 {
 	//LoadGLTextures(imgToUse, texSize);
 	//cout << "New Sprite-L! Ok till now "<< endl; 
@@ -287,15 +293,17 @@ void Sprite::newSprite(int _x, int _y, int _width, int _height, int _z, int imgT
 		x = _x;
 		y = _y;
 		z = _z;
+		id = _id;
 		//glTranslatef32(_x, _y, floattof32(-1));
 		width = _width;
 		height = _height;
+		depth = _z;
 		//size = _size;
 		//drawQuad(_width);
 	//glPopMatrix(1);
 		width = _width;
 		glPushMatrix();
-			drawQuad(width, height, texID );
+			drawQuad(width, height, texID, _z );
 		glPopMatrix(1);
 		//glTranslatef32(x, y, z);
 
@@ -328,7 +336,7 @@ void Sprite::update( )
 {
 	glPushMatrix();
 		glTranslatef(x, y, z);
-		drawQuad(width, height, texID);
+		drawQuad(width, height, texID, z);
 	glPopMatrix(1);
 }
 
@@ -337,6 +345,15 @@ void Sprite::setX( int _x )
 	x = _x;
 }
 
+void Sprite::setZ( int _z )
+{
+	depth = _z;
+}
+
+int Sprite::getZ( )
+{
+	return depth;
+}
 int Sprite::getX( )
 {
 	return x;
@@ -418,10 +435,10 @@ int l_Sprite_newSprite(lua_State * l)
 	int _width = lua_tointeger(l, 4);
 	int _height = lua_tointeger(l, 5);
 	int _z = lua_tointeger(l, 6);
-	int _imgToUse = lua_tointeger(l, 7);
-	int _texSize = lua_tointeger(l, 8);
+	int _id = lua_tointeger(l, 7);
+	//int _texSize = lua_tointeger(l, 8);
 	//cout << "X: " << lua_tointeger(l, 2) << " Y : " << lua_tointeger(l, 3) << " WIDTH: " << lua_tointeger(l, 4) << " HEIGHT: " << lua_tointeger(l, 5) << " Z: " << _z << endl;
-	sprite->newSprite(_x, _y, _width, _height, _z, _imgToUse, _texSize);
+	sprite->newSprite(_x, _y, _width, _height, _z, _id);
 	
 	return 0;
 }

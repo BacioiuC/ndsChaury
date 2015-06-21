@@ -213,7 +213,7 @@ int main(void) {
 		
 		int pressed = keysDown();	
 		int held = keysHeld();		
-		
+
 		//touchLoop(touch.px, touch.py );
 		//input.touchLoop(touch.px, touch.py);
 		//getTouchPositionX(touch.px);
@@ -265,9 +265,9 @@ int main(void) {
 			
 			}		
 		}
-		
+
 		glFlush(0);
-		//swiWaitForVBlank();
+		swiWaitForVBlank();
 		
 		//scanKeys();
 		
