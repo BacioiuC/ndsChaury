@@ -7,6 +7,7 @@ end
 
 function renderTable:add(_v, _layer, _priority, _screen)
 	local temp = {
+		id = #self._renderTable + 1,
 		object = _v,
 		layer = _layer,
 		priority = _priority,
@@ -15,6 +16,16 @@ function renderTable:add(_v, _layer, _priority, _screen)
 	table.insert(self._renderTable, temp)
 
 	self:sort( )
+	return temp.id
+end
+
+function renderTable:setPriority(_id, _priority)
+	local v = self._renderTable[_id]
+	v.priority = _priority
+end
+
+function renderTable:getObject(_id)
+	return self._renderTable[_id].object
 end
 
 function renderTable:sort( )
@@ -37,8 +48,8 @@ function renderTable:sort( )
 			table.insert(sortedTable, v)
 		end
 
-		self._renderTable = { }
-		self._renderTable = sortedTable
+		--self._renderTable = { }
+		--self._renderTable = sortedTable
 end
 
 function renderTable:render(_screen)
@@ -51,7 +62,7 @@ end
 
 -----------------------------------------------------------------
 -------------------- HELPFULL FUNCTIONS -------------------------
-local function spairs(t, order)
+function spairs(t, order)
     -- collect the keys
     local keys = {}
     for k in pairs(t) do keys[#keys+1] = k end

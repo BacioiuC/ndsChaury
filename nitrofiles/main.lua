@@ -9,10 +9,11 @@ ZAPA_PCX_TEX = 6
 function awake( )
 	--debug.debug ()
 	package.path = ""
-	dofile("inventory/inventory.lua")
 	dofile("core/renderTable.lua")
-	inventory:init( )
+	dofile("inventory/inventory.lua")
 	renderTable:init( )
+	inventory:init( )
+	
 end
 
 local i = 0
