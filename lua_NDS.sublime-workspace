@@ -1,0 +1,446 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"kill",
+				"killedBy"
+			],
+			[
+				"text",
+				"textstyles"
+			],
+			[
+				"_endM",
+				"_endMovementCounter"
+			],
+			[
+				"_po",
+				"_Pointer"
+			],
+			[
+				"_or",
+				"_orientationTable"
+			],
+			[
+				"_pl",
+				"_playerY"
+			],
+			[
+				"else",
+				"elseif"
+			],
+			[
+				"_cameraR",
+				"_cameraRotX"
+			],
+			[
+				"new",
+				"newDigger"
+			],
+			[
+				"mapSz",
+				"mapSzX"
+			],
+			[
+				"_camerarot",
+				"_cameraRotZ"
+			],
+			[
+				"nrNe",
+				"nrNeededMax"
+			],
+			[
+				"nrne",
+				"nrNeededMax"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "nitrofiles/main.lua",
+			"settings":
+			{
+				"buffer_size": 2977,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "nitrofiles/inventory/inventory.lua",
+			"settings":
+			{
+				"buffer_size": 1457,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "Packages/Makefile/Make.sublime-build",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/D/Yet Another Stupid Death/bin/Game/ggj/entity.lua",
+		"/D/Yet Another Stupid Death/bin/Game/ggj/rngMap.lua",
+		"/D/devkitPro/examples/nds/lua/nitrofiles/test1.lua",
+		"/D/Yet Another Stupid Death/bin/main.lua",
+		"/D/devkitPro/examples/nds/lua/nitrofiles/invetory/inventory.lua",
+		"/D/devkitPro/examples/nds/Graphics/3D/Simple_Quad/source/main.cpp",
+		"/C/Users/zapa/AppData/Local/Temp/Rar$DIa0.252/INSTALL",
+		"/D/devkitPro/examples/nds/lua/nitrofiles/sample_script.lua",
+		"/D/devkitPro/examples/nds/lua/source/main.cpp",
+		"/D/devkitPro/examples/nds/lua/source/files/file_io.cpp",
+		"/C/Users/zapa/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/C/Users/zapa/AppData/Roaming/Sublime Text 2/Packages/User/C++.sublime-settings",
+		"/D/devkitPro/examples/nds/lua/source/sample_script.lua",
+		"/D/devkitPro/examples/nds/Graphics/Backgrounds/16bit_color_bmp/Makefile",
+		"/D/devkitPro/examples/nds/filesystem/libfat/libfatdir/Makefile",
+		"/D/devkitPro/examples/nds/lua/sample_script.lua",
+		"/D/devkitPro/examples/nds/lua/nitrofiles/file1.txt",
+		"/C/Users/zapa/Downloads/Makefile",
+		"/D/devkitPro/examples/nds/dswifi/httpget/Makefile",
+		"/D/devkitPro/lua/src/Makefile",
+		"/D/devkitPro/lua/Makefile",
+		"/D/devkitPro/examples/nds/templates/arm9/Makefile",
+		"/D/devkitPro/lua/README",
+		"/D/NDS/luads/lua-5.1.3/Makefile",
+		"/D/NDS/luads/readme.txt",
+		"/D/devkitPro/examples/nds/lua_lib/Makefile2",
+		"/D/devkitPro/examples/nds/lua_lib/src/Makefile",
+		"/D/devkitPro/examples/nds/hello_world/Makefile",
+		"/C/Users/zapa/AppData/Local/Temp/Rar$DIa0.595/myboot_example.lua",
+		"/D/moaicli/yasd/config/android_config.yml",
+		"/D/FCRPGROGUELIKE/resources/layouts/highscore.lua",
+		"/D/FCRPGROGUELIKE/Game/ggj/ui/ggMM.lua",
+		"/D/FCRPGROGUELIKE/Game/table_work.lua",
+		"/D/FCRPGROGUELIKE/Game/game.lua",
+		"/D/FCRPGROGUELIKE/Game/ggj/player.lua",
+		"/D/FCRPGROGUELIKE/Game/ggj/turn.lua",
+		"/D/FCRPGROGUELIKE/Game/ggj/entity.lua",
+		"/D/FCRPGROGUELIKE/Game/ggj/items.lua",
+		"/D/FCRPGROGUELIKE/Game/ggj/ui/ggjUI.lua",
+		"/D/FCRPGROGUELIKE/Game/ggj/rngMap.lua",
+		"/D/FCRPGROGUELIKE/HighScore.yasd",
+		"/D/FCRPGROGUELIKE/Game/file_io.lua",
+		"/D/FCRPGROGUELIKE/Game/ggj/ui/score.lua",
+		"/D/FCRPGROGUELIKE/resources/layouts/ggClassSel.lua",
+		"/D/FCRPGROGUELIKE/resources/layouts/scoreMenu.lua",
+		"/D/FCRPGROGUELIKE/core/StateMachine.lua",
+		"/D/Program Files (x86)/Steam/steamapps/common/MountBlade Warband/Modules/Prophesy of Pendor 3.611/conversation.txt",
+		"/D/Program Files (x86)/Steam/steamapps/common/MountBlade Warband/Modules/Prophesy of Pendor 3.611/conversation - Copy.txt",
+		"/D/FCRPGROGUELIKE/main.lua",
+		"/D/Program Files (x86)/Steam/steamapps/common/MountBlade Warband/Modules/Prophesy of Pendor 3.611/item_kinds1.txt",
+		"/C/Users/zapa/Documents/Mount&Blade With Fire and Sword/Characters/Zapa.txt",
+		"/D/Program Files (x86)/Steam/steamapps/common/MountBlade Warband/Modules/1257AD - Copy/menus.txt",
+		"/D/Program Files (x86)/Steam/steamapps/common/MountBlade Warband/Modules/1257AD - Copy/item_kinds1.txt",
+		"/C/Users/zapa/Documents/Mount&Blade Warband/Characters/Zapa - Copy.txt",
+		"/D/Program Files (x86)/Steam/steamapps/common/MountBlade Warband/Modules/Prophesy of Pendor 3.611/dialog_states.txt",
+		"/D/Program Files (x86)/Steam/steamapps/common/MountBlade Warband/Modules/1257AD/troops.txt",
+		"/D/Program Files (x86)/Steam/steamapps/common/MountBlade Warband/Modules/1257AD/scripts.txt",
+		"/D/Program Files (x86)/Steam/steamapps/common/MountBlade Warband/Modules/1257AD/parties.txt",
+		"/D/Program Files (x86)/Steam/steamapps/common/MountBlade Warband/Modules/Prophesy of Pendor 3.611/strings.txt",
+		"/D/Program Files (x86)/Steam/steamapps/common/MountBlade Warband/Modules/Prophesy of Pendor 3.611/menus.txt",
+		"/C/Users/zapa/Documents/Mount&Blade Warband/Characters/Zapa.txt",
+		"/D/Program Files (x86)/Steam/steamapps/common/MountBlade Warband/Modules/Prophesy of Pendor 3.611/actions.txt",
+		"/D/Program Files (x86)/Steam/steamapps/common/MountBlade Warband/Modules/1257AD - Copy/meshes.txt",
+		"/D/Program Files (x86)/Steam/steamapps/common/MountBlade Warband/Modules/Prophesy of Pendor 3.611/meshes.txt",
+		"/D/Mobility-Games/FCRPGROGUELIKE/main.lua",
+		"/D/Mobility-Games/FCRPGROGUELIKE/Game/ggj/entity.lua",
+		"/D/Mobility-Games/FCRPGROGUELIKE/Game/ggj/items.lua",
+		"/D/Mobility-Games/FCRPGROGUELIKE/Game/ggj/player.lua",
+		"/D/Mobility-Games/FCRPGROGUELIKE/Game/ggj/rngMap.lua",
+		"/C/Users/zapa/Documents/Mount&Blade Warband Savegames/1257AD/sg00.sav",
+		"/D/Mobility-Games/FCRPGROGUELIKE/Game/ggj/messages.lua",
+		"/D/Project/Game/ggj/ui/ggjUI.lua",
+		"/D/Project/main.lua",
+		"/D/Project/Game/ggj/player.lua",
+		"/D/Project/Game/ggj/items.lua",
+		"/D/Project/Game/ggj/messages.lua",
+		"/D/Project/core/input.lua",
+		"/D/Project/Game/ggj/rngMap.lua",
+		"/D/Project/gui/textstyles.lua",
+		"/D/Project/gui/textbox.lua",
+		"/D/Project/gui/text.lua",
+		"/D/Project/resources/themes/basetheme.lua",
+		"/D/Project/gui/awindow.lua",
+		"/D/Project/resources/layouts/cmd.lua",
+		"/D/Project/core/StateMachine.lua",
+		"/D/Project/Game/ggj/entity.lua",
+		"/D/Project/Game/include_list.lua",
+		"/D/Project/Game/LevelEditor/levelEditor.lua",
+		"/D/Project/core/grid.lua",
+		"/D/Project/core/image.lua",
+		"/D/Project/Game/ui/buy_menu.lua",
+		"/D/Roguesweeper/Game/ggj/rngMap.lua",
+		"/D/Project/map/level1.gnrtd",
+		"/D/Roguesweeper/Game/game.lua",
+		"/D/Project/Game/game.lua",
+		"/D/Project/layermgr.lua",
+		"/D/Project/core/3dbasic.lua",
+		"/D/Project/core/core.lua",
+		"/D/Roguesweeper/core/image.lua",
+		"/D/Project/gui/test.lua",
+		"/D/Roguesweeper/core/StateMachine.lua",
+		"/D/exmaple_camera_clip/main.lua",
+		"/D/test/main.lua",
+		"/D/Project/core/events.lua",
+		"/D/Roguesweeper/main.lua"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"print",
+			"spairs",
+			"DATA",
+			"install",
+			"AR",
+			"path",
+			"arm-",
+			"armeabi",
+			"cc=",
+			"gcc",
+			"PATH",
+			"libnds",
+			"copy",
+			"deep",
+			"copy",
+			"deepco",
+			"_highScoreTextBox",
+			"_clear",
+			"isDead",
+			"Zapa",
+			"newLine",
+			"HIGHSCORE",
+			"dlga_member_chat:member_talk.",
+			"spouse_talk",
+			"end_items",
+			"end",
+			"message",
+			"112",
+			"I is",
+			"i is",
+			"colorTabel",
+			"print",
+			"Size",
+			"size",
+			"setStyle",
+			"setTextStyle",
+			"style",
+			"setStyle",
+			"setSty;e",
+			"setTextStyle",
+			"setRect",
+			" _hardcoded_Size",
+			"textStyle",
+			"textSty",
+			"textSt",
+			"textStyle",
+			"cell",
+			"setRot",
+			"happening",
+			"findCoridors",
+			"hap",
+			"happenin",
+			"isWallAt",
+			"44",
+			"hardcoded",
+			"hasWalls",
+			"bg13",
+			"self._mapCeilings",
+			"self._diggerTable",
+			"print",
+			"life",
+			"v.life",
+			"newDigger",
+			"mask",
+			"addLayer",
+			"self._blockSize",
+			"40map",
+			"self._map",
+			"self._mapHeight",
+			"self._mapWidth",
+			"moaiSIM",
+			"sort",
+			"image:removeProp",
+			"self._map"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"24",
+			"hasWall",
+			"100",
+			"map",
+			"40map",
+			"40",
+			"map"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "nitrofiles/main.lua",
+					"settings":
+					{
+						"buffer_size": 2977,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2167,
+								2207
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1440.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "nitrofiles/inventory/inventory.lua",
+					"settings":
+					{
+						"buffer_size": 1457,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1298,
+								1298
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 135.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 100.0
+	},
+	"replace":
+	{
+		"height": 62.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 259.0,
+	"status_bar_visible": true
+}
