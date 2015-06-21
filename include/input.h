@@ -21,6 +21,12 @@ class Input {
 		int getX( );
 		int getY( );
 		touchPosition touch;
+		int pressed;
+		int held;
+		int getKeyPressed( );
+		int getKeyHeld( );
+		enum { CONTINUOUS, SINGLE } TouchType = SINGLE;
+		bool getTouchState( );
 };
 
 //int touchLoop(int _px, int _py);
@@ -31,6 +37,7 @@ int retTY( );
 int l_Input_getX(lua_State * l);
 int l_Input_getY(lua_State * l);
 int l_Input_touchLoop(lua_State * l);
+int l_Input_getTouchState(lua_State * l);
 void RegisterInput(lua_State * l);
 
 

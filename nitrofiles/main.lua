@@ -21,7 +21,7 @@ local i = 0
 local mySprite
 local topTable = { }
 local bottomTable = { }
-
+TouchPressed = false
 
 grid = { }
 gridTable = { }
@@ -117,8 +117,10 @@ end
 function handleInput(_px, _py)
 	--print("PX: ".._px.." PY: ".._py.."")
 	local v = inventory:getSlot(3, 3)
-	v._x = math.floor(tonumber(_px))- 96
-	v._y = -math.floor(tonumber(_py)-92)
+	if TouchPressed == true then
+		v._x = math.floor(tonumber(_px))- 96
+		v._y = -math.floor(tonumber(_py)-92)
+	end
 end
 
 function renderTop( )
@@ -146,6 +148,9 @@ function renderBottom( )
 	inventory:render( )
 
 	inputMgr:touchLoop()
+	TouchPressed = inputMgr:getTouchState( )
+
+
 	handleInput(inputMgr:getX( ), inputMgr:getY( ))
 
 	renderTable:render(2)

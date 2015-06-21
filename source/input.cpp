@@ -36,11 +36,36 @@ Input::Input( )
 
 void Input::touchLoop()
 {
+	scanKeys();
 	touchRead(&touch);
+	pressed = keysDown();	
+	held = keysHeld();		
 	touch_x = touch.px;
 	touch_y = touch.py;
 	//cout << "PX IS: " << _px <<  " | PY IS: " << _py << endl;
+	//cout << "PRessed: " << pressed << endl;
+	if (held & KEY_TOUCH)
+	{
+		touchState = true;
+	}
+	else
+		touchState = false;
 
+}
+
+int Input::getKeyHeld( )
+{
+	return held;
+}
+
+int Input::getKeyPressed( )
+{
+	return pressed;
+}
+
+bool Input::getTouchState( )
+{
+	return touchState;
 }
 
 int Input::getX( )
@@ -78,6 +103,14 @@ Input * l_CheckInput(lua_State * l, int n)
     // This checks that the argument is a userdata 
     // with the metatable "luaL_Sprite"
     return *(Input **)luaL_checkudata(l, n, "luaL_Input");
+}
+
+int l_Input_getTouchState(lua_State * l)
+{
+	Input * input = l_CheckInput(l, 1);
+	bool tState = input->getTouchState( );
+	lua_pushboolean(l, tState);
+	return 1;
 }
 
 int l_Input_touchLoop(lua_State * l)
@@ -132,7 +165,8 @@ void RegisterInput(lua_State * l)
         { "new", l_Input_constructor },
 		{ "getX", l_Input_getX },
 		{ "getY", l_Input_getY },
-		{ "touchLoop", l_Input_touchLoop }
+		{ "touchLoop", l_Input_touchLoop },
+		{ "getTouchState", l_Input_getTouchState },
     };
  
     // Create a luaL metatable. This metatable is not 
