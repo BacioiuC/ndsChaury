@@ -43,6 +43,9 @@ int LoadGLTextures();
 void SetOrtho( void );
 void _glBegin( );
 void _glEnd( );
+void SetOrtho( );
+void _glBegin( );
+void _glEnd( );
 
 // LUA Bindings here
 int l_initGL(lua_State * L);

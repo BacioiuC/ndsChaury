@@ -6,6 +6,9 @@ ZAPA_PCX_TEX = 4
 INVENTORY_BOTTOM_HEADER_TEX = 5
 SWORD_PCX_TEX = 6
 
+OFFSET_X = 128
+OFFSET_Y = - 96
+GRID_SIZE = 32
 
 function awake( )
 	--debug.debug ()
@@ -53,7 +56,7 @@ function start( )
 		sprite = Sprite.new( ),
 		priority = 0,
 	}
-	temp.sprite:newSprite(0, 0, 140, 100, -5, 4, 5)
+	temp.sprite:newSprite(0,  0, 256, 192, -5, 4, 5)
 	temp.sprite:setTexture(BG_TOP_TEX)
 	--renderTable:add(temp.sprite, 1, 1, 1)
 	table.insert(topTable, temp)
@@ -62,16 +65,16 @@ function start( )
 	sprite = Sprite.new( ),
 	priority = 0,
 	}
-	temp.sprite:newSprite(0, 0, 140, 100, -5, 4, 5)
+	temp.sprite:newSprite(0, 0, 256, 192, -5, 4, 5)
 	temp.sprite:setTexture(BG_BOTTOM_TEX)
 	table.insert(bottomTable, temp)	
 	--renderTable:add(temp.sprite, 1, 1, 2)
 
-	inventory:createSlots( )
+	
 
 	inputMgr = Input.new( ) -- get our Input started
 	
-	items:new( )
+	
 	
 end
 
@@ -82,13 +85,13 @@ end
 
 function handleInput(_px, _py)
 	--print("PX: ".._px.." PY: ".._py.."")
-	local v = items:getItem(1)
-	if v ~= nil then
-		if TouchPressed == true then
-			v:setX( math.floor(tonumber(_px))- 96)
-			v:setY(-math.floor(tonumber(_py)-92))
-		end
-	end
+	--local v = items:getItem(1)
+	--if v ~= nil then
+	--	if TouchPressed == true then
+			--v:setX( math.floor(tonumber(_px))- 96 - 16)
+			--v:setY(-math.floor(tonumber(_py)-92))
+	--	end
+	--end
 end
 
 function renderTop( )

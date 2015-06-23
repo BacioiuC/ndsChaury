@@ -193,7 +193,7 @@ int main(void) {
 	cout << "TEST INIT; " << endl;
 	while(true) {
 	
-	
+		_glBegin( );
 		while(REG_DISPCAPCNT & DCAP_ENABLE);
 
 
@@ -266,6 +266,7 @@ int main(void) {
 			}		
 		}
 
+		_glEnd( );
 		glFlush(0);
 		swiWaitForVBlank();
 		

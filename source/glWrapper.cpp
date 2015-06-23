@@ -32,6 +32,10 @@ float LightDiffuse[]=		{ 1.0f, 1.0f, 1.0f, 1.0f };
 float LightPosition[]=	{ 0.0f, 0.0f, 2.0f, 1.0f };
 
 
+
+
+
+
 //-------------------------------------------------------
 // set up a 2D layer construced of bitmap sprites
 // this holds the image when rendering to the top screen
@@ -66,6 +70,14 @@ void initSubSprites(void){
    oamUpdate(&oamSub);
 }
 
+void SetOrtho( void )		
+{
+
+	//glMatrixMode( GL_PROJECTION );     // set matrixmode to projection
+	//glLoadIdentity();				 // reset
+	glOrtho( 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1 << 12, 1 << 12 );  // downscale projection matrix
+	
+}
 
 int initGL ( )
 {
@@ -109,9 +121,13 @@ int initGL ( )
 	
 	//any floating point gl call is being converted to fixed prior to being implemented
 	glMatrixMode(GL_PROJECTION);
-	glScalef(1.0f, 1.0f, -1.0f);
+	
 	glLoadIdentity();
-	glOrtho(-128, 128,-96, 96, 0.1, 100);//gluPerspective(60, 256.0 / 192.0, 0.01, 90); //glOrtho(-3, 3,-2, 2, 0.1, 100);//glOrtho(-128, 128,-96, 96, 0.1, 100);//
+	gluPerspective( 70, 256.0 / 192.0, 1, 200 );//glOrtho(-128, 128,-96, 96, 0.1, 100);//gluPerspective(60, 256.0 / 192.0, 0.01, 90); //glOrtho(-3, 3,-2, 2, 0.1, 100);//glOrtho(-128, 128,-96, 96, 0.1, 100);//
+	//glScalef(1.0f, -1.0f, 1.0f);
+	
+	//glTranslatef( -128.0f, 96.0f, -140.0f );
+	glTranslatef(-128.0f, 96.0f, -128.0f);
 	glColor3f(1,1,1);
 	gluLookAt(	0.0, 0.0, 1.0,		//camera possition 
 				0.0, 0.0, 0.0,		//look at
@@ -123,6 +139,47 @@ int initGL ( )
 	glLight(0, RGB15(31,31,31) , 0, floattov10(-1.0), 0);
 
 	return 0;
+}
+
+void _glBegin( )
+{
+	// save 3d perpective projection matrix
+	glMatrixMode( GL_PROJECTION );   
+    glPushMatrix();
+	
+	// save 3d modelview matrix for safety
+	glMatrixMode( GL_MODELVIEW );
+    glPushMatrix();
+	
+	
+
+	glEnable( GL_BLEND );
+	glEnable( GL_TEXTURE_2D );
+	glDisable( GL_ANTIALIAS );		// disable AA
+	glDisable( GL_OUTLINE );			// disable edge-marking
+
+	glColor( 0x7FFF ); 				// max color
+	
+	glPolyFmt( POLY_ALPHA(31) | POLY_CULL_NONE );  // no culling
+
+	SetOrtho();
+	
+	glMatrixMode( GL_TEXTURE );      	// reset texture matrix just in case we did some funky stuff with it
+	glLoadIdentity();
+	
+	glMatrixMode( GL_MODELVIEW );		// reset modelview matrix. No need to scale up by << 12
+	glLoadIdentity();
+
+
+}
+
+void _glEnd( )
+{
+	// restore 3d matrices and set current matrix to modelview
+	glMatrixMode( GL_PROJECTION );    
+    glPopMatrix( 1 );
+	glMatrixMode( GL_MODELVIEW );
+    glPopMatrix( 1 );
 }
 
 int RandomNumber(int min, int max){
@@ -240,7 +297,8 @@ void drawQuad(int width, int height, int texID, int _depth)
 			tex = 0;*/
 		//glPolyFmt(POLY_ALPHA(31) | POLY_CULL_BACK  | POLY_FORMAT_LIGHT0 | POLY_ID(g_depth));
 		glBindTexture(GL_TEXTURE_2D, texture[texID]);
-		glScalef(width, height, 1);
+		glScalef(width, -height, 1);
+		//glRotatef(0, 45, 0, 0);
 		glBegin(GL_QUAD);
 /*
 1, 1    0,1
@@ -248,22 +306,27 @@ void drawQuad(int width, int height, int texID, int _depth)
 
 0,0    1, 0
 */			
-			glTexCoord2f(0.0f, 1.0f);//glColor3b(255,0,0);
+			glTexCoord2f(0.0f, 0.0f);//glColor3b(255,0,0);
 
-			glVertex3f(-1, -1, _depth);
+			glVertex3f(0, 0, _depth);
 
-			glTexCoord2f(1.0f, 1.0f);//glColor3b(0,255,0);
+			glTexCoord2f(1.0f, 0.0f);//glColor3b(0,255,0);
 
-			glVertex3f(1, -1, _depth);
+			glVertex3f(1, 0, _depth);
 			
 			
-			glTexCoord2f(1.0f, 0.0f);//glColor3b(0,0,255);
+			glTexCoord2f(1.0f, 1.0f);//glColor3b(0,0,255);
 
 			glVertex3f(1, 1, _depth);
 
-			glTexCoord2f(0.0f, 0.0f);//glColor3b(255,0,255);
+			glTexCoord2f(0.0f, 1.0f);//glColor3b(255,0,255);
 
-			glVertex3f(-1, 1, _depth);
+			glVertex3f(0, 1, _depth);
+			/*glTexCoord2f(0.0f, 1.0f); glVertex3f(0, 1, _depth); 
+			glTexCoord2f(1.0f, 1.0f); glVertex3f(1, 0, _depth);                            
+			glTexCoord2f(1.0f, 0.0f); glVertex3f(1, 1, _depth);                      
+			glTexCoord2f(0.0f, 0.0f); glVertex3f(0, 1, _depth);*/
+
 	
 		glEnd();
 		
@@ -335,7 +398,7 @@ void Sprite::setSize( int _width, int _height )
 void Sprite::update( )
 {
 	glPushMatrix();
-		glTranslatef(x, y, z);
+		glTranslatef(x, -y, z);
 		drawQuad(width, height, texID, z);
 	glPopMatrix(1);
 }
@@ -572,4 +635,7 @@ void RegisterFoo(lua_State * l)
     // we'll do this to get greater flexibility.
     lua_setglobal(l, "Sprite");
 }
+
+
+
 
