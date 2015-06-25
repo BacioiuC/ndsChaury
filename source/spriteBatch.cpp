@@ -54,13 +54,13 @@ void spriteBatch::render( )
 	
 	//
 	int* texArray = returnTextureArray( );
-	glPushMatrix();
+	//glPushMatrix();
 
 	glBindTexture(GL_TEXTURE_2D, texArray[4]);
 	//glScalef(width, height, 1);
 	glBegin(GL_QUAD);
     for(list<spriteData>::iterator it=batchList.begin();it!=batchList.end();++it)
-    {
+    {  
 		glPushMatrix();
 
 		glTranslatef( (*it).x, -(*it).y, -4);
@@ -77,7 +77,7 @@ void spriteBatch::render( )
 	glEnd();
 	
 	glBindTexture(0,0);
-	glPopMatrix(1);
+	//glPopMatrix(1);
 	
 }
 

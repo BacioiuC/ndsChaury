@@ -35,6 +35,7 @@ nrSprites = 0
 
 inputMgr = nil
 local myBatch 
+local myBatch2
 local timer = 0
 function start( )
 	
@@ -62,6 +63,7 @@ function start( )
 	inputMgr = Input.new( ) -- get our Input started
 	
 	myBatch = spriteBatch.new( )
+	myBatch2 = spriteBatch.new( )
 	newSprite( )
 	
 end
@@ -83,7 +85,12 @@ function newSprite( )
 	temp.sprite:setTexture(ZAPA_PCX_TEX)
 	--table.insert(myTable, temp)
 	nrSprites = nrSprites + 1
-	myBatch:add(temp.sprite, x*32-32, y*32-32, 32, 32, -4)
+	local a = math.random(1, 2)
+	if a == 1 then
+		myBatch:add(temp.sprite, x*32-32, y*32-32, 32, 32, -4)
+	else
+		myBatch2:add(temp.sprite, x*32-32, y*32-32, 32, 32, -4)
+	end
 
 end
 
@@ -108,6 +115,9 @@ function renderTop( )
 	end
 	--renderTable:render(1)
 	print("NR Sprites: "..nrSprites.."  ")
+	if nrSprites < 1000 then
+		newSprite( )
+	end
 
 
 	myBatch:render( )
@@ -129,7 +139,7 @@ function renderBottom( )
 
 
 	handleInput(inputMgr:getX( ), inputMgr:getY( ))
-
+	myBatch2:render( )
 	
 
 end
