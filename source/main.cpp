@@ -19,6 +19,7 @@
 
 // GL Wrapper
 #include <glWrapper.h>
+#include <spriteBatch.h>
 #include <input.h>
 
 // Engine stuff
@@ -163,6 +164,7 @@ int main(void) {
 	
 	RegisterFoo(script.getLuaState( ));
 	RegisterInput(script.getLuaState( ));
+	RegisterSpriteBatch(script.getLuaState( ));
 
 	script.getGlobal("awake"); // get the start method and handle anything related to displaying stuff and etc
 	if(script.isFunction( ))
@@ -193,8 +195,8 @@ int main(void) {
 	cout << "TEST INIT; " << endl;
 	while(true) {
 	
-		_glBegin( );
-		while(REG_DISPCAPCNT & DCAP_ENABLE);
+		
+		//while(REG_DISPCAPCNT & DCAP_ENABLE);
 
 
 	
@@ -221,6 +223,7 @@ int main(void) {
 
 		
 		//DrawBox(-1,-1,-1,2,2,2);
+		_glBegin( );
 		top = !top;
 		if(top)
 		{
@@ -238,10 +241,10 @@ int main(void) {
 			vramSetBankC(VRAM_C_SUB_BG);
 			REG_DISPCAPCNT = DCAP_BANK(3) | DCAP_ENABLE | DCAP_SIZE(3);
 		}
-	
+	 
 		glMatrixMode(GL_MODELVIEW);
 
-		if(top)
+		if(top) 
 		{
 			bgSetPriority(0,1);
 			bgSetPriority(1,0);	
@@ -268,6 +271,7 @@ int main(void) {
 
 		_glEnd( );
 		glFlush(0);
+		
 		swiWaitForVBlank();
 		
 		//scanKeys();

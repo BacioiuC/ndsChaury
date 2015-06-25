@@ -5,13 +5,13 @@ function items:init( )
 	self._itemTable = { }
 	--self:new( )
 
-	items:new(32, 16)
+	--items:new(32, 16)
 
 end
 
 function items:new(_x, _y)
 	local temp = { 
-		id = #self._itemTable + 1,
+		--id = #self._itemTable + 1,
 		gfx = Sprite:new( ),
 		x = _x,
 		y = _y,
@@ -19,7 +19,8 @@ function items:new(_x, _y)
 		ofy = 0,
 		inity = _y,
 		gravityTimer = 0,
-		maxFallTime = 0.1,
+		maxFallTime = 3,
+		hp = 10,
 	}
 	temp.gfx:newSprite(_x, _y, 32, 32, -1, 4, 5)
 	temp.gfx:setTexture(SWORD_PCX_TEX)
@@ -30,11 +31,10 @@ end
 
 function items:isAt(_x, _y)
 	for i,v in ipairs(self._itemTable) do
-		local dif = v.inity - v.y
-	 	local modulo = 0
-
-		if v.x == _x and 1+dif+modulo == _y then
-			return true
+		if v ~= nil and v.hp > 0 then
+			if v.x == _x and v.y == _y then
+				return true
+			end
 		end
 	end
 	return false
@@ -50,35 +50,86 @@ function items:getItem(_id)
 	local v = self._itemTable[_id].gfx
 	return v
 end
---[[
-*32+OFFSET_X-math.floor(GRID_SIZE/2)
-*32+OFFSET_Y
-]]
-function items:update( )
-	--[[for i,v in ipairs(self._itemTable) do
-		-- make differance between initial y and current y
-		local dif = v.inity - v.y
-		if inventory:isCellEmpty(v.x, 1+dif+2) == true then
-			if v.y > -3 then
-				v.gravityTimer = v.gravityTimer + 1
-				if v.gravityTimer > v.maxFallTime then
-					if v.ofy < 32 then
-						v.ofy = v.ofy + 1
-					end
 
-					if v.ofy == 32 then
-						v.y = v.y - 1
-						v.ofy = 0
-					end
-					v.gravityTimer = 0
-				end
+function items:getItemAt(_x, _y)
+	for i,v in ipairs(self._itemTable) do
+		if v ~= nil then
+			if v.x == _x and v.y == _y then
+				return i
 			end
 		end
-		v.gfx:setX(v.x*32+OFFSET_X-math.floor(GRID_SIZE/2))
-		v.gfx:setY(v.y*32+8-v.ofy)
-		v.gfx:update( )
-	end--]]
+	end
+end
+
+function items:destroy(_id)
+	local v = self._itemTable[_id]
+	if v~=nil then
+		v.y = 1000
+		v.x = 1000
+		--v.gfx:setRenderState(false)
+		inventory:setEmptyAt(v.x, v.y)
+		v.gfx = nil
+		v = nil
+		table.remove(self._itemTable, i)
+		--self:updateIndex( )
+	end
+
+end
+
+function items:updateIndex( )
 	for i,v in ipairs(self._itemTable) do
-		v.gfx:update( )
+		--v.id = i
+	end
+end
+
+function items:update( )
+
+
+
+	for i,v in ipairs(self._itemTable) do
+		if v ~= nil then
+			-- make differance between initial y and current y
+			if v.gfx ~= nil and v.hp > 0 then
+				if self:isAt(v.x, v.y+1) == false then
+					if v.y < 5 then
+
+							--v.y = v.y + 1
+							--if v.ofy < 32 then
+							--	v.ofy = v.ofy + 1
+							--end
+							
+							--if v.ofy == 32 then
+							v.y = v.y + 1
+							--	v.ofy = 0
+							--end
+
+
+					end
+				end
+				
+				v.gfx:setX(v.x*32)
+				v.gfx:setY(v.y*32)
+				v.gfx:update( )
+			end
+
+			if v.hp == 0 then
+				self:destroy(i)
+			end
+		end
+
+	end
+
+
+end
+
+function items:handleInput(_px, _py)
+	if TouchPressed == true then
+		local x = math.floor(_px/32)
+		local y = math.floor(_py/32)
+		local v = self._itemTable[self:getItemAt(x, y)]
+		print("X: "..x.." Y: "..y.."")
+		if v ~= nil then
+			v.hp = 0
+		end
 	end
 end

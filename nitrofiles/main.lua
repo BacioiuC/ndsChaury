@@ -13,12 +13,10 @@ GRID_SIZE = 32
 function awake( )
 	--debug.debug ()
 	package.path = ""
-	dofile("core/renderTable.lua")
-	dofile("inventory/inventory.lua")
-	dofile("inventory/item.lua")
-	renderTable:init( )
-	inventory:init( )
-	items:init( )
+	--dofile("core/renderTable.lua")
+	--dofile("inventory/inventory.lua")
+	--dofile("inventory/item.lua")
+
 	
 end
 
@@ -27,36 +25,25 @@ local i = 0
 local mySprite
 local topTable = { }
 local bottomTable = { }
+local myTable = { }
 TouchPressed = false
 
 grid = { }
 gridTable = { }
 
+nrSprites = 0
 
 inputMgr = nil
-
+local myBatch 
+local timer = 0
 function start( )
 	
-	--inputMgr = Input.new( )
-	--start_new( )
-	--initGL( );
-	--print(loadlib())
 
-	if package ~= nil then
-		--print("FUCK")
-		if package.path ~= nil then
-			print("WELLL....: ."..package.path.."")
-		else
-			print("Thank you o/")
-		end
-	end
-
-	--inventory:init( )
 	local temp = {
 		sprite = Sprite.new( ),
 		priority = 0,
 	}
-	temp.sprite:newSprite(0,  0, 256, 192, -5, 4, 5)
+	temp.sprite:newSprite(0,  0, 256, 192, -15, 4, 5)
 	temp.sprite:setTexture(BG_TOP_TEX)
 	--renderTable:add(temp.sprite, 1, 1, 1)
 	table.insert(topTable, temp)
@@ -65,17 +52,39 @@ function start( )
 	sprite = Sprite.new( ),
 	priority = 0,
 	}
-	temp.sprite:newSprite(0, 0, 256, 192, -5, 4, 5)
+	temp.sprite:newSprite(0, 0, 256, 192, -15, 4, 5)
 	temp.sprite:setTexture(BG_BOTTOM_TEX)
 	table.insert(bottomTable, temp)	
-	--renderTable:add(temp.sprite, 1, 1, 2)
+
 
 	
 
 	inputMgr = Input.new( ) -- get our Input started
 	
+	myBatch = spriteBatch.new( )
+	newSprite( )
 	
-	
+end
+
+function newSprite( )
+	local x = math.random(1, 8)
+	local y = math.random(1, 6)
+	local temp = {
+		sprite = Sprite.new( ),
+		on = true,
+		_x = x,
+		_y = y,
+		timeStep = 0,
+		startTimer = 0,
+	}
+	temp.sprite:newSprite(x*32-32, y*32-32, 32, 32, -4, 4, 5)
+	temp.sprite:setX(x*32-32)
+	temp.sprite:setY(y*32-32)
+	temp.sprite:setTexture(ZAPA_PCX_TEX)
+	--table.insert(myTable, temp)
+	nrSprites = nrSprites + 1
+	myBatch:add(temp.sprite, x*32-32, y*32-32, 32, 32, -4)
+
 end
 
 
@@ -84,25 +93,24 @@ function createGridOfSlots( )
 end
 
 function handleInput(_px, _py)
-	--print("PX: ".._px.." PY: ".._py.."")
-	--local v = items:getItem(1)
-	--if v ~= nil then
-	--	if TouchPressed == true then
-			--v:setX( math.floor(tonumber(_px))- 96 - 16)
-			--v:setY(-math.floor(tonumber(_py)-92))
-	--	end
-	--end
+	--items:handleInput(_px, _py)
+	if TouchPressed == true then
+		newSprite( )
+	end
 end
 
 function renderTop( )
+
 	--print("LOOPING")
 	--SpriteClass:update( )
 	for i,v in ipairs(topTable) do
-
 		v.sprite:update( )
 	end
 	--renderTable:render(1)
+	print("NR Sprites: "..nrSprites.."  ")
 
+
+	myBatch:render( )
 	--mySlot:update( )
 end
 
@@ -110,15 +118,11 @@ end
 function renderBottom( )
 	
 	for i,v in ipairs(bottomTable) do
-		--v.sprite:setX(math.random(0, 255));
-		--v.sprite:setY(-math.random(0, 50));
-		--print("Y IS: "..v.sprite:getY( ));
+
 		v.sprite:update( )
 	end
 	
-	--renderTable:render(2)
-	inventory:render( )
-	items:update( )
+
 	inputMgr:touchLoop()
 
 	TouchPressed = inputMgr:getTouchState( )
@@ -127,10 +131,7 @@ function renderBottom( )
 	handleInput(inputMgr:getX( ), inputMgr:getY( ))
 
 	
-	
-	--print("PX IS: "..px.." | PY: "..py.."")
 
-	--print("PX IS : "..px.. " PY IS: "..py.."")
 end
 
 

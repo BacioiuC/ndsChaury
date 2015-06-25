@@ -187,9 +187,14 @@ int RandomNumber(int min, int max){
 	int randNum;
 	randNum = -min+(rand()%min);
 	return randNum;
-}
+} 
 
-int	texture[7];		
+int	texture[7];		 
+
+int* returnTextureArray( )
+{
+	return texture;
+}
 
 // Load PCX files And Convert To Textures
 int LoadGLTextures() {
@@ -199,11 +204,11 @@ int LoadGLTextures() {
 	const unsigned char* img[imgSz];
 
 /*
-#include "slot_pcx.h"
+#include "slot_pcx.h" 
 #include "Star_pcx.h"
-#include "zapah_pcx.h"
+#include "zapah_pcx.h" 
 #include "twitter_pcx.h"
-#include "bg_top_pcx.h"
+#include "bg_top_pcx.h" 
 */
 	img[0] = default_tex_pcx;
 	img[1] = bg_top_pcx;
@@ -292,6 +297,7 @@ int LoadGLTextures() {
 
 void drawQuad(int width, int height, int texID, int _depth)
 {
+
 		/*tex = tex + 1;
 		if(tex > 5)
 			tex = 0;*/
@@ -329,11 +335,40 @@ void drawQuad(int width, int height, int texID, int _depth)
 
 	
 		glEnd();
+		glBindTexture(0,0);
 		
 
 	//glPopMatrix(1);
 }
 
+void Sprite::beginDraw(int x, int y, int z, int _width, int _height)
+{
+		glPushMatrix();
+		glTranslatef(x, -y, z);
+		glBindTexture(GL_TEXTURE_2D, texture[1]);
+		glScalef(_width, -_height, 1);
+		//glRotatef(0, 45, 0, 0);
+		glBegin(GL_QUAD);
+}
+
+void Sprite::draw()
+{			//cout << "THIS GETS CALLED " << endl;
+
+			glTexCoord2f(0.0f, 0.0f); glVertex3f(0, 0, z);
+
+			glTexCoord2f(1.0f, 0.0f); glVertex3f(1, 0, z);
+			
+			glTexCoord2f(1.0f, 1.0f); glVertex3f(1, 1, z);
+
+			glTexCoord2f(0.0f, 1.0f); glVertex3f(0, 1, z);
+}
+
+void Sprite::endDraw( )
+{
+		glEnd();
+		glBindTexture(0,0);
+		glPopMatrix(1);
+}
 
 
 Sprite::Sprite( )
@@ -343,10 +378,16 @@ Sprite::Sprite( )
 	
 }
 
+void Sprite::setRenderState(bool state)
+{
+	canRender = state;
+}
 void Sprite::setTexture(int _texID)
 {
 	texID = _texID;
 }
+
+//void Sprite::destroyTexture(int 
 
 void Sprite::newSprite(int _x, int _y, int _width, int _height, int _z, int _id)
 {
@@ -370,6 +411,11 @@ void Sprite::newSprite(int _x, int _y, int _width, int _height, int _z, int _id)
 		glPopMatrix(1);
 		//glTranslatef32(x, y, z);
 
+
+}
+
+void Sprite::newSpriteBatch(int _x, int _y, int _width, int _height, int _z, int _batchId)
+{
 
 }
 
@@ -397,10 +443,14 @@ void Sprite::setSize( int _width, int _height )
 
 void Sprite::update( )
 {
-	glPushMatrix();
-		glTranslatef(x, -y, z);
-		drawQuad(width, height, texID, z);
-	glPopMatrix(1);
+	if (canRender == true)
+	{
+		glPushMatrix();
+			glTranslatef(x, -y, z);
+			drawQuad(width, height, texID, z);
+		glPopMatrix(1);
+	}
+			
 }
 
 void Sprite::setX( int _x )
@@ -558,26 +608,33 @@ int l_Sprite_setTexture(lua_State *l)
 	sprite->setTexture( lua_tointeger(l, 2) );
 }
 
+int l_Sprite_setRenderState(lua_State *l)
+{
+	Sprite * sprite = l_CheckSprite(l, 1);
+	bool state = false;
+	sprite->setRenderState(state);
+	return 0;
+}
 /*
 void Sprite::setX( int _x )
 {
-	x = _x;
+	x = _x; 
 }
 
-int Sprite::getX( )
+int Sprite::getX(  )
 {
 	return x;
-}
+}    
 
 void Sprite::setY( int _y )
 {
-	y = _y;
+	y = _y; 
 }
-
+  
 int Sprite::getY( )
 {
 	return y;
-}
+}   
 */
 
 void RegisterFoo(lua_State * l)
@@ -592,7 +649,8 @@ void RegisterFoo(lua_State * l)
 		{ "getX", l_Sprite_getX },
 		{ "setY", l_Sprite_setY },
 		{ "getY", l_Sprite_getY },
-		{ "setTexture", l_Sprite_setTexture }
+		{ "setTexture", l_Sprite_setTexture },
+		{ "setRenderState", l_Sprite_setRenderState }
     };
  
     // Create a luaL metatable. This metatable is not 

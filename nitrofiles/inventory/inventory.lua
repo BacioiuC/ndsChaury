@@ -33,8 +33,8 @@ function inventory:createSlots( )
 			self._inventoryGrid[x][y] = { }
 			self._inventoryGrid[x][y].gfx = Sprite.new( )
 			self._inventoryGrid[x][y]._x = x*32
-			self._inventoryGrid[x][y]._y = y*32-32
-			self._inventoryGrid[x][y].gfx:newSprite(x*32, y*32-32, 32, 32, -4, 4, 5)
+			self._inventoryGrid[x][y]._y = y*32
+			self._inventoryGrid[x][y].gfx:newSprite(x*32, y*32, 32, 32, -4, 4, 5)
 			self._inventoryGrid[x][y].gfx:setTexture(SLOT_PCX_TEX)
 			if y == 1 then
 				self._inventoryGrid[x][y].isSpawner = true
@@ -46,23 +46,28 @@ function inventory:createSlots( )
 	end
 end
 
+function inventory:setEmptyAt(_x, _y)
+	self._inventoryGrid[_x][_y].isEmpty = true
+end
+
 function inventory:spawnItems( )
 	-- only check slots on y = 1
-	--[[for x = 1, 6 do
+	for x = 1, 6 do
 		for y = 1, 5 do
-			local bool = items:isAt(x, y)
-			if bool == false then
-				self._inventoryGrid[x][y].isEmpty = true
-			else
+			bool = items:isAt(x, y)
+			if bool == true then
 				self._inventoryGrid[x][y].isEmpty = false
+			else
+				self._inventoryGrid[x][y].isEmpty = true
+			end
+			if self._inventoryGrid[x][1].isEmpty == true then
+				self._inventoryGrid[x][1].isEmpty = false
+				items:new(x, 1)
+				
 			end
 		end
-		if self._inventoryGrid[x][1].isEmpty == true then
-			items:new(x, 1)
-			self._inventoryGrid[x][1].isEmpty = false
-		end
 
-	end--]]
+	end
 
 end
 
@@ -70,11 +75,9 @@ function inventory:isCellEmpty(_x, _y)
 	if self._inventoryGrid[_x] ~= nil then
 		if self._inventoryGrid[_x][_y] ~= nil then
 			return self._inventoryGrid[_x][_y].isEmpty 
-		else
-			print("_Y GRID NIL Y+ : ".._y.."")
 		end
 	else
-		print("_X GRID NIL")
+
 	end
 	--return true
 end
@@ -91,12 +94,12 @@ function inventory:render( )
 	end
 
 	for i,v in ipairs(self._inventoryRenderTable) do
-		v:update( )
+	--	v:update( )
 	end
 
 
 	-- Spawn items
-		self:spawnItems( )
+	self:spawnItems( )
 
 end
 
