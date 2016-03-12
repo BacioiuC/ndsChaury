@@ -12,14 +12,9 @@
 
 #include <typeinfo>
 // Graphics includes
-#include "slot_pcx.h"
-#include "default_tex_pcx.h"
-#include "zapah_pcx.h"
-#include "twitter_pcx.h"
-#include "bg_top_pcx.h"
-#include "bg_bottom_pcx.h"
-#include "inventory_bottom_header_pcx.h"
-#include "sword_pcx.h"
+#include "ball_pcx.h"
+#include "tile_ground_1_pcx.h"
+#include "tile_ground_2_pcx.h"
 
 int textureID;
 using namespace std;
@@ -31,9 +26,75 @@ float LightAmbient[]=		{ 0.5f, 0.5f, 0.5f, 1.0f };
 float LightDiffuse[]=		{ 1.0f, 1.0f, 1.0f, 1.0f };
 float LightPosition[]=	{ 0.0f, 0.0f, 2.0f, 1.0f };
 
+static int gCurrentTexture = 0;
 
 
 
+static inline void gxVertex3i(v16 x, v16 y, v16 z)
+{
+	GFX_VERTEX16 = (y << 16) | (x & 0xFFFF);
+	GFX_VERTEX16 = ((uint32)(uint16)z);
+}
+
+
+
+/******************************************************************************
+
+	Again no gxVertex2i() in the videoGL header
+	This is used for optimizing vertex calls
+
+******************************************************************************/
+static inline void gxVertex2i(v16 x, v16 y)
+{
+	GFX_VERTEX_XY = (y << 16) | (x & 0xFFFF);	
+}
+
+
+
+/******************************************************************************
+
+	Almost a direct copy of TEXTURE_PACK except that
+	UV coords are shifted left by 4 bits.
+	U and V are shifted left by 4 bits
+	since GFX_TEX_COORD expects 12.4 Fixed point values
+
+******************************************************************************/
+static inline void gxTexcoord2i(t16 u, t16 v)
+{
+	GFX_TEX_COORD = (v << 20) | ( (u << 4) & 0xFFFF );
+}
+
+
+
+
+/******************************************************************************
+
+    I made this since the scale wrappers are either the 
+	vectorized mode or does not permit you to scale only
+	the axis you want to scale. Needed for sprite scaling.
+
+******************************************************************************/
+static inline void gxScalef32(s32 x, s32 y, s32 z)
+{
+	MATRIX_SCALE = x;
+	MATRIX_SCALE = y;
+	MATRIX_SCALE = z;
+}
+
+
+
+
+/******************************************************************************
+
+    I this made for future naming conflicts.
+
+******************************************************************************/
+static inline void gxTranslate3f32( int32 x, int32 y, int32 z ) 
+{
+	MATRIX_TRANSLATE = x;
+	MATRIX_TRANSLATE = y;
+	MATRIX_TRANSLATE = z;
+}
 
 
 //-------------------------------------------------------
@@ -180,6 +241,7 @@ void _glEnd( )
     glPopMatrix( 1 );
 	glMatrixMode( GL_MODELVIEW );
     glPopMatrix( 1 );
+
 }
 
 int RandomNumber(int min, int max){
@@ -187,6 +249,7 @@ int RandomNumber(int min, int max){
 	int randNum;
 	randNum = -min+(rand()%min);
 	return randNum;
+	
 } 
 
 int	texture[7];		 
@@ -200,7 +263,7 @@ int* returnTextureArray( )
 int LoadGLTextures() {
 	
 
-	int imgSz = 7;
+	int imgSz = 2;
 	const unsigned char* img[imgSz];
 
 /*
@@ -210,13 +273,14 @@ int LoadGLTextures() {
 #include "twitter_pcx.h"
 #include "bg_top_pcx.h" 
 */
-	img[0] = default_tex_pcx;
-	img[1] = bg_top_pcx;
+	img[0] = tile_ground_1_pcx;
+	img[1] = tile_ground_2_pcx;
+	/*img[1] = bg_top_pcx;
 	img[2] = bg_bottom_pcx;
-	img[3] = slot_pcx;
-	img[4] = zapah_pcx;
+	img[3] = ball_pcx;
+	img[4] = pallet_pcx;
 	img[5] = inventory_bottom_header_pcx;
-	img[6] = sword_pcx;
+	img[6] = sword_pcx;*/
 	
 	/*
 	TEXTURE_SIZE_8 = 0,
@@ -238,13 +302,14 @@ int LoadGLTextures() {
 	TextureSize[5] = TEXTURE_SIZE_256;
 	TextureSize[6] = TEXTURE_SIZE_512;
 	TextureSize[7] = TEXTURE_SIZE_1024;*/
-	TextureSize[0] = TEXTURE_SIZE_8;
-	TextureSize[1] = TEXTURE_SIZE_128;
+	TextureSize[0] = TEXTURE_SIZE_32;
+	TextureSize[1] = TEXTURE_SIZE_32;
+	/*TextureSize[1] = TEXTURE_SIZE_128;
 	TextureSize[2] = TEXTURE_SIZE_128;
 	TextureSize[3] = TEXTURE_SIZE_32;
-	TextureSize[4] = TEXTURE_SIZE_128;
+	TextureSize[4] = TEXTURE_SIZE_32;
 	TextureSize[5] = TEXTURE_SIZE_8;
-	TextureSize[6] = TEXTURE_SIZE_32;
+	TextureSize[6] = TEXTURE_SIZE_32;*/
 
 	//load our texture
 			// (NEW) and different from nehe.
@@ -386,8 +451,6 @@ void Sprite::setTexture(int _texID)
 {
 	texID = _texID;
 }
-
-//void Sprite::destroyTexture(int 
 
 void Sprite::newSprite(int _x, int _y, int _width, int _height, int _z, int _id)
 {
@@ -555,6 +618,8 @@ int l_Sprite_newSprite(lua_State * l)
 	
 	return 0;
 }
+
+
 
 int l_Sprite_update(lua_State * l)
 {

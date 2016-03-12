@@ -134,55 +134,67 @@ int main(void) {
 	vramSetBankF(VRAM_F_MAIN_BG);
 	//consoleInit(0, 1, BgType_Text4bpp, BgSize_T_256x256, 7,0, true, true);
 	consoleInit(0,1, BgType_Text4bpp, BgSize_T_256x256, 7,0, true, true);
-
+	//consoleDebugInit(DebugDevice_CONSOLE);
 	LoadGLTextures();
-	
-	//Sprite myQuad;
-	//myQuad.newSprite(-4, 0, 4, 4, -1, 4, 5);
-	
-	//Sprite myQuad2;
-	//myQuad2.newSprite(0, 0, 4, 4, -1, 4, 5);
-	//lcdMainOnBottom();
 	
 	glPolyFmt(POLY_ALPHA(31) | POLY_CULL_BACK  | POLY_FORMAT_LIGHT0);
 	/*
 	Init NitroFS
 	*/
 	nitroFSInit(NULL);
+
+	//Write some test files
+	
+
+   FILE *fp;
+
+   fp = fopen("test.txt", "w+");
+   fprintf(fp, "This is testing for fprintf...\n");
+   fputs("This is testing for fputs...\n", fp);
+   fclose(fp);;
+
+
 	//dirlist("/");
 	/*
 	LUA GOES HERE TEST
 	*/
-
+	bgSetPriority(0,0);
+	bgSetPriority(1,0);
+	cout << "TEST INIT; " << endl;
     LuaScript script("main.lua");
-	//setLuaPath(script.getLuaState(), "/");
-	//script.loadFile("test1.lua");
-	script.pushFunction((lua_CFunction)l_initGL, "initGL");
-	script.pushFunction((lua_CFunction)l_RandomNumber, "RandomNumber");
+    script.loadFile("main.lua");
+
+    if(script.GetExecutionStatus() == true)
+    {
+	    //setLuaPath(script.getLuaState(), "/");
+		//script.loadFile("test1.lua");
+		script.pushFunction((lua_CFunction)l_initGL, "initGL");
+		script.pushFunction((lua_CFunction)l_RandomNumber, "RandomNumber");
 
 
-	
-	RegisterFoo(script.getLuaState( ));
-	RegisterInput(script.getLuaState( ));
-	RegisterSpriteBatch(script.getLuaState( ));
+		
+		RegisterFoo(script.getLuaState( ));
+		RegisterInput(script.getLuaState( ));
+		RegisterSpriteBatch(script.getLuaState( ));
 
-	script.getGlobal("awake"); // get the start method and handle anything related to displaying stuff and etc
-	if(script.isFunction( ))
-	{
-		script.call( );
-	}
-	
-	script.getGlobal("start"); // get the start method and handle anything related to displaying stuff and etc
-	if(script.isFunction( ))
-	{
-		script.call( );
-	}
+		script.getGlobal("awake"); // get the start method and handle anything related to displaying stuff and etc
+		if(script.isFunction( ))
+		{
+			script.call( );
+		}
+		
+		script.getGlobal("start"); // get the start method and handle anything related to displaying stuff and etc
+		if(script.isFunction( ))
+		{
+			script.call( );
+		}	
+    }
+    else
+    {
 
+    	cout << "Error in executing the script! GetExecutionStatus == false" << endl;
+    }
 
-
-	// Setup Input Manager
-	//Input input;
-	
 
 
 	/* END OF LUA */
@@ -192,37 +204,14 @@ int main(void) {
 
 	int keys;
 
-	cout << "TEST INIT; " << endl;
+	
 	while(true) {
 	
 		
-		//while(REG_DISPCAPCNT & DCAP_ENABLE);
-
-
-	
-
 		scanKeys();
-		
-		/*if(keys & KEY_A) {sizeX++;}
-		if(keys & KEY_B) {sizeX--;}
-		if(keys & KEY_R) {sizeY++;}
-		if(keys & KEY_L) {sizeY--;}*/
-		
-		
 		touchRead(&touch);
-		
-
-		
 		int pressed = keysDown();	
 		int held = keysHeld();		
-
-		//touchLoop(touch.px, touch.py );
-		//input.touchLoop(touch.px, touch.py);
-		//getTouchPositionX(touch.px);
-		//getTouchPositionY(touch.py);
-
-		
-		//DrawBox(-1,-1,-1,2,2,2);
 		_glBegin( );
 		top = !top;
 		if(top)
@@ -244,29 +233,46 @@ int main(void) {
 	 
 		glMatrixMode(GL_MODELVIEW);
 
-		if(top) 
-		{
-			bgSetPriority(0,1);
-			bgSetPriority(1,0);	
-			//myQuad.update( );
-			script.getGlobal("renderTop");
-			if(script.isFunction( ))
+		if(script.GetExecutionStatus() == true)
+   		{
+			if(top) 
 			{
-				script.call( );
+				bgSetPriority(0,1);
+				bgSetPriority(1,0);	
+				script.getGlobal("renderTop");
+				if(script.isFunction( ))
+				{
+					script.call( );
+					
+				}	
+			}
+			else
+			{
+				bgSetPriority(0,0);
+				bgSetPriority(1,0);
+				script.getGlobal("renderBottom");
+				if(script.isFunction( ))
+				{
+					script.call( );
 				
-			}	
+				}		
+			}
 		}
 		else
 		{
-			bgSetPriority(0,0);
-			bgSetPriority(1,0);
-			//myQuad2.update( );
-			script.getGlobal("renderBottom");
-			if(script.isFunction( ))
+			if(top) 
 			{
-				script.call( );
-			
-			}		
+				bgSetPriority(0,1);
+				bgSetPriority(1,0);	
+	
+			}
+			else
+			{
+				bgSetPriority(0,0);
+				bgSetPriority(1,0);
+	
+			}
+			//cout << "Error " << endl;
 		}
 
 		_glEnd( );
@@ -274,11 +280,8 @@ int main(void) {
 		
 		swiWaitForVBlank();
 		
-		//scanKeys();
 		
 		keys = keysDown();	
-		
-		//touchRead(&touchXY);	
 		
 	}
 

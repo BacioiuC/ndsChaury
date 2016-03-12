@@ -6,6 +6,28 @@
 #include <lua.hpp>
 #include <list>
 
+typedef struct 
+{
+
+	int		width;		/*!< Width of the Sprite */      			
+	int 	height;		/*!< Height of the Sprite */	
+	int 	u_off;		/*!< S texture offset */
+	int 	v_off;		/*!< T texture offset */
+	int		textureID;  /*!< Texture handle ( used in glDeleteTextures() ) <Br> 
+	  						 The texture handle in VRAM (returned by glGenTextures()) <Br>
+							 ie. This references the actual texture stored in VRAM */
+
+} glImage;
+
+typedef enum
+{
+
+	GL_FLIP_NONE 	= (1 << 0), /*!< No flipping */
+	GL_FLIP_V 		= (1 << 1), /*!< Sprite is rendered vertically flipped */
+	GL_FLIP_H 		= (1 << 2), /*!< Sprite is rendered horizontally flipped */
+	
+} GL_FLIP_MODE;
+
 class Sprite {
 	public:
 		Sprite( );

@@ -407,7 +407,7 @@
 #define LUAI_UACNUMBER	double
 
 #define LUA_NUMBER_FRMLEN	""
-#define LUA_NUMBER_FMT		"%.7g"
+#define LUA_NUMBER_FMT		"%d"
 
 #define l_mathop(op)		op##f
 
@@ -421,7 +421,7 @@
 #define LUAI_UACNUMBER	long double
 
 #define LUA_NUMBER_FRMLEN	"L"
-#define LUA_NUMBER_FMT		"%.19Lg"
+#define LUA_NUMBER_FMT		"%d"
 
 #define l_mathop(op)		op##l
 
@@ -434,7 +434,7 @@
 #define LUAI_UACNUMBER	double
 
 #define LUA_NUMBER_FRMLEN	""
-#define LUA_NUMBER_FMT		"%.14g"
+#define LUA_NUMBER_FMT		"%d"
 
 #define l_mathop(op)		op
 
@@ -449,7 +449,7 @@
 
 #define l_floor(x)		(l_mathop(floor)(x))
 
-#define lua_number2str(s,n)	sprintf((s), LUA_NUMBER_FMT, (n))
+#define lua_number2str(s,n)	sprintf((s), "", (n))
 
 
 /*

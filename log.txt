@@ -1,0 +1,21 @@
+Microphone init failed.
+DeSmuME 0.9.11 svn0 dev+ x64-JIT
+Found 1 joysticks
+Joystick 0 Microsoft Microsoft® SideWinder™ X3 Mouse
+Axes: 36
+Buttons: 11
+Trackballs: 0
+Hats: 0
+
+SoftRast Initialized with cores=4
+
+ROM game code: ####
+ROM developer: Homebrew
+
+Sorry.. right now, you can't use the default (stream rom from disk) with homebrew due to a bug with DLDI-autopatchingSlot1 auto-selected device type: Retail MC+ROM
+Slot2 auto-selected device type: PassME (0x08)
+CPU mode: Interpreter
+MMU9 write32 to undefined register 04001058h = 00000000h (PC:0202B9A2)
+MMU7 write32 to undefined register 04000218h = 00000000h (PC:03802AD8)
+MMU7 write32 to undefined register 0400021Ch = FFFFFFFFh (PC:03802ADC)
+MMU7 write32 to undefined register 04000218h = 00000040h (PC:03802C74)

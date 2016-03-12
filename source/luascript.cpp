@@ -1,28 +1,52 @@
-#include "LuaScript.h"
+#include "luascript.h"
+
+
 
 LuaScript::LuaScript(const std::string& filename) {
     L = luaL_newstate();
-    if (luaL_loadfile(L, filename.c_str()) || lua_pcall(L, 0, 0, 0)) {
-        std::cout<<"Error: failed to load ("<<filename<<")"<<std::endl;
-		L = 0;
-    }
-	
 
-    if(L) luaL_openlibs(L);
+
+   
 }
 
 LuaScript::~LuaScript() {
 	if(L) lua_close(L);
 }
 
+bool LuaScript::GetExecutionStatus( )
+{
+    return LualExecutionIsOk;
+}
+
 void LuaScript::loadFile(const std::string& fileName)
 {
 
-	if (luaL_loadfile(L, filename.c_str()) || lua_pcall(L, 0, 0, 0))
-	{
-        std::cout<<"Error 2: failed to load ("<<filename<<")"<<std::endl;
-		//L = 0;
+    int status = luaL_loadfile(L, fileName.c_str());
+    if (status) {
+        std::cout<<"ERROR RIGHT HERE"<<std::endl;
+         LualExecutionIsOk = false;
     }
+    else
+    {
+        std::cout<<"FORWARD"<<std::endl;
+
+        int error = lua_pcall(L, 0, 0, 0);
+        std::cout << "Error is: "<<error<<std::endl;
+        if( error != 0 )
+        {
+          LualExecutionIsOk = false;
+        }
+        else
+        {
+           LualExecutionIsOk = true;
+            
+        }
+       
+         if(L) luaL_openlibs(L);
+    }
+
+
+
 }
 
 void LuaScript::printError(const std::string& variableName, const std::string& reason) {
@@ -32,6 +56,16 @@ void LuaScript::printError(const std::string& variableName, const std::string& r
 lua_State* LuaScript::getLuaState( )
 {
 	return L;
+}
+
+static int traceback(lua_State *L) {
+    lua_getfield(L, LUA_RIDX_GLOBALS, "debug");
+    lua_getfield(L, -1, "traceback");
+    lua_pushvalue(L, 1);
+    lua_pushinteger(L, 2);
+    lua_call(L, 2, 1);
+    fprintf(stderr, "%s\n", lua_tostring(L, -1));
+    return 1;
 }
 
 void LuaScript::pushFunction( lua_CFunction f, std::string globalName)

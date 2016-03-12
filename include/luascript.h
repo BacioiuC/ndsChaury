@@ -22,6 +22,8 @@ public:
 	void getGlobal(std::string global);
 	int getTop();
 	bool isFunction();
+  bool LualExecutionIsOk = false;
+  bool GetExecutionStatus( );
 	void call( );
 	lua_State* getLuaState( );
 	void loadFile(const std::string& filename);
@@ -140,5 +142,7 @@ template<>
 inline std::string LuaScript::lua_getdefault<std::string>() {
   return "null";
 }
+
+static int traceback(lua_State *L);
 
 #endif

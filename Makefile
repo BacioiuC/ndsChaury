@@ -1,7 +1,6 @@
 #---------------------------------------------------------------------------------
 .SUFFIXES:
 #---------------------------------------------------------------------------------
-
 ifeq ($(strip $(DEVKITARM)),)
 $(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>devkitARM")
 endif
@@ -27,7 +26,7 @@ ARCH	:=	-mthumb -mthumb-interwork -DLUA_32BITS
 
 CFLAGS	:=	-g -Wall -O2\
  			-march=armv5te -mtune=arm946e-s -fomit-frame-pointer\
-			-ffast-math \
+			-ffast-math -fno-omit-frame-pointer\
 			$(ARCH)
 
 CFLAGS	+=	$(INCLUDE) -DARM9

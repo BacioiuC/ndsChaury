@@ -35,3 +35,4 @@ function start_new( )
 	print("AAAA")
 	print("AAAA")
 end
+
